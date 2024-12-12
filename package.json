@@ -9,6 +9,7 @@
     "build": "tsc",
     "downloadNewProblem": "node --loader ts-node/esm src/leetcode-download.ts https://leetcode.com/problems/add-two-numbers/",
     "test:1": "node --loader ts-node/esm --test src/tests/1-two-sum.test.ts",
+    "test:2": "node --loader ts-node/esm --test src/tests/2-add-two-numbers.test.ts",
     "lint": "eslint 'src/**/*.ts' 'tests/**/*.ts'",
     "format": "prettier --write 'src/**/*.ts' 'tests/**/*.ts'"
   },
@@ -25,6 +26,7 @@
   "dependencies": {
     "@types/jsdom": "^21.1.7",
     "axios": "^1.7.8",
+    "dotenv": "^16.4.7",
     "jsdom": "^25.0.1"
   }
 }

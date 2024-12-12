@@ -3,6 +3,7 @@ import * as path from 'path'
 import axios from 'axios'
 import { JSDOM } from 'jsdom'
 import * as prettier from 'prettier'
+import 'dotenv/config'
 
 interface ProblemDetails {
   title: string
@@ -15,30 +16,48 @@ interface ProblemDetails {
   }>
 }
 
-// const headers = {
-//   'User-Agent':
-//     'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/96.0.4664.110 Safari/537.36',
-//   Referer: 'https://leetcode.com',
-//   'Accept-Language': 'en-US,en;q=0.9',
-//   Accept:
-//     'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8',
-// }
+async function getInitialTokens() {
+  const response = await axios.get('https://leetcode.com', {
+    maxRedirects: 5,
+    validateStatus: null,
+  })
+  return {
+    csrf: response.headers['set-cookie']
+      ?.find((c) => c.includes('csrftoken'))
+      ?.split(';')[0]
+      .split('=')[1],
+    session: response.headers['set-cookie']?.find((c) =>
+      c.includes('LEETCODE_SESSION')
+    ),
+  }
+}
 
 async function fetchLeetCodeProblem(
   problemUrl: string
 ): Promise<ProblemDetails> {
   try {
-    const tokenResponse = await axios.get('https://leetcode.com', {
-      withCredentials: true,
-    })
-    const csrfToken = tokenResponse.headers['x-csrftoken']
-
+    const tokens = await getInitialTokens()
     const response = await axios.get(problemUrl, {
       headers: {
-        'x-csrftoken': csrfToken,
-        'User-Agent': 'Mozilla/5.0',
-        Referer: 'https://leetcode.com',
+        'User-Agent':
+          'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36',
+        Cookie: `csrftoken=${tokens.csrf}`, // Add your session cookie from browser
+        Accept:
+          'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8',
+        'Accept-Language': 'en-US,en;q=0.5',
+        'Accept-Encoding': 'gzip, deflate, br',
+        Connection: 'keep-alive',
+        Referer: 'https://leetcode.com/',
+        Origin: 'https://leetcode.com',
+        'X-Requested-With': 'XMLHttpRequest',
+        'X-CSRFToken': `${tokens.csrf}`,
+        'Sec-Fetch-Dest': 'document',
+        'Sec-Fetch-Mode': 'navigate',
+        'Sec-Fetch-Site': 'same-origin',
       },
+      withCredentials: true,
+      maxRedirects: 5,
+      validateStatus: null,
     })
 
     const dom = new JSDOM(response.data)
