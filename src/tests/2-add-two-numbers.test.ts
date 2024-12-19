@@ -1,27 +1,122 @@
 import { test, describe } from 'node:test'
 import assert from 'node:assert'
-import { addTwoNumbers } from '../2-add-two-numbers.js'
+import {
+  addTwoNumbers,
+  convertNumbersArrayToLinkedList,
+} from '../2-add-two-numbers.js'
 
-test('Add Two Numbers', async (t) => {
-  await t.test('should return the sum of two linked lists', () => {
-    const l1 = [2, 4, 3]
-    const l2 = [5, 6, 4]
-    const output = [7, 0, 8]
-    const result = addTwoNumbers(l1, l2)
-    assert.deepStrictEqual(result, output)
+describe('Correctly converts numbers array to linked list', () => {
+  test('Converts [2, 4, 9] to linked list', () => {
+    const l1 = [2, 4, 9]
+    const result = convertNumbersArrayToLinkedList(l1)
+    assert.deepStrictEqual(result, {
+      val: 2,
+      next: {
+        val: 4,
+        next: {
+          val: 9,
+          next: null,
+        },
+      },
+    })
   })
-  await t.test('should handle 0 as input', () => {
+})
+
+describe('Correctly adds two numbers', () => {
+  test('Adds linked lists [2, 4, 9] and [5, 6, 4, 9]', () => {
+    const ll1 = { val: 2, next: { val: 4, next: { val: 9, next: null } } }
+    const ll2 = {
+      val: 5,
+      next: { val: 6, next: { val: 4, next: { val: 9, next: null } } },
+    }
+
+    const result = addTwoNumbers(ll1, ll2)
+    assert.deepStrictEqual(result, {
+      val: 7,
+      next: {
+        val: 0,
+        next: {
+          val: 4,
+          next: {
+            val: 0,
+            next: {
+              val: 1,
+              next: null,
+            },
+          },
+        },
+      },
+    })
+  })
+})
+
+describe('Correctly creates linked list and adds numbers', () => {
+  test('Adds numbers [2, 4, 9] and [5, 6, 4, 9]', () => {
+    const l1 = [2, 4, 9]
+    const l2 = [5, 6, 4, 9]
+    let ll1 = convertNumbersArrayToLinkedList(l1)
+    let ll2 = convertNumbersArrayToLinkedList(l2)
+    let result = addTwoNumbers(ll1, ll2)
+    assert.deepStrictEqual(result, {
+      val: 7,
+      next: {
+        val: 0,
+        next: {
+          val: 4,
+          next: {
+            val: 0,
+            next: {
+              val: 1,
+              next: null,
+            },
+          },
+        },
+      },
+    })
+  })
+
+  test('Adds numbers [0] and [0]', () => {
     const l1 = [0]
     const l2 = [0]
-    const output = [0]
-    const result = addTwoNumbers(l1, l2)
-    assert.deepStrictEqual(result, output)
+    let ll1 = convertNumbersArrayToLinkedList(l1)
+    let ll2 = convertNumbersArrayToLinkedList(l2)
+    let result = addTwoNumbers(ll1, ll2)
+    assert.deepStrictEqual(result, {
+      val: 0,
+      next: null,
+    })
   })
-  await t.test('should handle different length inputs', () => {
+
+  test('Adds numbers [9, 9, 9, 9, 9, 9, 9] and [9, 9, 9, 9]', () => {
     const l1 = [9, 9, 9, 9, 9, 9, 9]
     const l2 = [9, 9, 9, 9]
-    const output = [8, 9, 9, 9, 0, 0, 0, 1]
-    const result = addTwoNumbers(l1, l2)
-    assert.deepStrictEqual(result, output)
+    let ll1 = convertNumbersArrayToLinkedList(l1)
+    let ll2 = convertNumbersArrayToLinkedList(l2)
+    let result = addTwoNumbers(ll1, ll2)
+    assert.deepStrictEqual(result, {
+      val: 8,
+      next: {
+        val: 9,
+        next: {
+          val: 9,
+          next: {
+            val: 9,
+            next: {
+              val: 0,
+              next: {
+                val: 0,
+                next: {
+                  val: 0,
+                  next: {
+                    val: 1,
+                    next: null,
+                  },
+                },
+              },
+            },
+          },
+        },
+      },
+    })
   })
 })

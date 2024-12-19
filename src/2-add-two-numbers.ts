@@ -22,15 +22,15 @@ type ListNode = {
   next: ListNode | null
 }
 
-const l1 = [2, 4, 3]
-const l2 = [5, 6, 4]
+const l1 = [2, 4, 9]
+const l2 = [5, 6, 4, 9]
 
 let ll1 = convertNumbersArrayToLinkedList(l1)
 let ll2 = convertNumbersArrayToLinkedList(l2)
-let rll1 = reverseLinkedList(ll1)
-let rll2 = reverseLinkedList(ll2)
-let result = addTwoNumbers(rll1, rll2)
-function convertNumbersArrayToLinkedList(arr: number[]) {
+let result = addTwoNumbers(ll1, ll2)
+console.log(JSON.stringify(result))
+
+export function convertNumbersArrayToLinkedList(arr: number[]) {
   let linkedList: ListNode | null = null
   let head: ListNode | null = null
 
@@ -48,22 +48,33 @@ function convertNumbersArrayToLinkedList(arr: number[]) {
   return linkedList
 }
 
-function reverseLinkedList(list: ListNode | null): ListNode | null {
-  let prev: ListNode | null = null
-  let current: ListNode | null = list
-  let next: ListNode | null = null
-
-  while (current) {
-    next = current.next
-    current.next = prev
-    prev = current
-    current = next
-  }
-
-  return prev
-}
-
 export function addTwoNumbers(
   l1: ListNode | null,
   l2: ListNode | null
-): ListNode | null {}
+): ListNode | null {
+  let p1 = l1
+  let p2 = l2
+  let carry = false
+  let result: ListNode | null = null
+  let head: ListNode | null = null
+
+  while (p1 || p2) {
+    const sum: number = (p1?.val || 0) + (p2?.val || 0) + +carry
+    carry = sum > 9
+    const newVal = sum % 10
+    if (!head) {
+      result = { val: newVal, next: null }
+      head = result
+    } else {
+      head.next = { val: newVal, next: null }
+      head = head.next
+    }
+    p1 = p1?.next || null
+    p2 = p2?.next || null
+  }
+
+  if (carry) {
+    head!.next = { val: 1, next: null }
+  }
+  return result
+}
