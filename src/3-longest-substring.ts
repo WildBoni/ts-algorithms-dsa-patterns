@@ -27,5 +27,26 @@
  */
 
 export function lengthOfLongestSubstring(s: string): number {
-  return 0
+  let usedChars = new Set<string>()
+  let maxLength = 0
+  let right = 0
+  let left = 0
+
+  while (right < s.length) {
+    if (usedChars.has(s[right])) {
+      if (s[left] !== s[right]) {
+        usedChars.delete(s[left])
+      } else {
+        right++
+      }
+      left++
+    } else {
+      usedChars.add(s[right])
+      right++
+      maxLength = Math.max(maxLength, right - left)
+    }
+  }
+  return maxLength
 }
+
+console.log(lengthOfLongestSubstring('abcabcbb'))

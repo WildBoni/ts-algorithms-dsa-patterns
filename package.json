@@ -10,6 +10,7 @@
     "downloadNewProblem": "node --loader ts-node/esm src/leetcode-download.ts https://leetcode.com/problems/add-two-numbers/",
     "test:1": "node --loader ts-node/esm --test src/tests/1-two-sum.test.ts",
     "test:2": "node --loader ts-node/esm --test src/tests/2-add-two-numbers.test.ts",
+    "test:3": "node --loader ts-node/esm --test src/tests/3-longest-substring.test.ts",
     "lint": "eslint 'src/**/*.ts' 'tests/**/*.ts'",
     "format": "prettier --write 'src/**/*.ts' 'tests/**/*.ts'"
   },
