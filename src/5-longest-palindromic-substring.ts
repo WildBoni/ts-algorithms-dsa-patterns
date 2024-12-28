@@ -18,6 +18,25 @@ Output: "bb"
 */
 
 export function longestPalindrome(s: string): string {
+  let sLength = s.length
+  let result = ''
+
+  let start = 0
+  let end = start + 1
+
+  while (start < sLength - 1) {
+    while (s[start] !== s[end] && end < sLength) {
+      end++
+    }
+    while (s[start] === s[end] && start > 0 && end < sLength) {
+      console.log(`same: ${s[start]}, ${s[end]}`)
+      start--
+      end++
+    }
+    start++
+    end = start + 1
+  }
+
   return result
 }
 
