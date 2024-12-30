@@ -22,22 +22,25 @@ export function longestPalindrome(s: string): string {
   let result = ''
 
   let start = 0
-  let end = start + 1
+  let maxLength = 0
 
-  while (start < sLength - 1) {
-    while (s[start] !== s[end] && end < sLength) {
-      end++
+  for (let i = 0; i < sLength; i++) {
+    let left = i
+    let right = i
+
+    while (left >= 0 && right < sLength && s[left] === s[right]) {
+      let length = left - right + 1
+      if (length > maxLength) {
+        maxLength = length
+        start = left
+      }
+      left--
+      right++
     }
-    while (s[start] === s[end] && start > 0 && end < sLength) {
-      console.log(`same: ${s[start]}, ${s[end]}`)
-      start--
-      end++
-    }
-    start++
-    end = start + 1
   }
 
+  result = s.slice(start, maxLength)
   return result
 }
 
-longestPalindrome('abcdbadef')
+console.log(longestPalindrome('acas'))
