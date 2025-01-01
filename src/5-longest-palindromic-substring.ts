@@ -40,7 +40,7 @@ export function longestPalindrome(s: string): string {
     }
   }
 
-  result = s.slice(start, maxLength)
+  result = s.slice(start, start + maxLength)
   return result
 }
 
