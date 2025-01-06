@@ -25,30 +25,26 @@ export function findMedianSortedArrays(
 
   let arr1Length = nums1.length
   let arr2Length = nums2.length
+  let totalLength = arr1Length + arr2Length
 
-  let median1Pointer = 0
-  let median2Pointer = 0
+  let median1 = 0
+  let median2 = 0
 
-  while (median1Pointer <= (arr1Length + arr2Length) / 2) {
-    median2Pointer = median1Pointer
-    if (arr1Pointer < arr1Length && arr2Pointer < arr2Length) {
-      median1Pointer =
-        nums1[arr1Pointer] > nums2[arr2Pointer]
-          ? nums2[arr2Pointer++]
-          : nums1[arr1Pointer++]
-    } else if (arr1Pointer < arr1Length) {
-      median1Pointer = nums1[arr2Pointer++]
+  for (let i = 0; i <= totalLength / 2; i++) {
+    median2 = median1
+    if (
+      arr1Pointer < arr1Length &&
+      (arr2Pointer >= arr2Length || nums1[arr1Pointer] <= nums2[arr2Pointer])
+    ) {
+      median1 = nums1[arr1Pointer++]
     } else {
-      median1Pointer = nums2[arr2Pointer++]
+      median1 = nums2[arr2Pointer++]
     }
   }
 
-  let result =
-    (arr1Length + arr2Length) % 2 === 1
-      ? median1Pointer
-      : (median1Pointer + median2Pointer) / 2
+  let result = totalLength % 2 === 1 ? median1 : (median1 + median2) / 2
 
-  return result
+  return isNaN(result) ? 0 : result
 }
 
-console.log(findMedianSortedArrays([1, 3], [1, 4]))
+console.log(findMedianSortedArrays([1, 2], [2, 3, 4]))
