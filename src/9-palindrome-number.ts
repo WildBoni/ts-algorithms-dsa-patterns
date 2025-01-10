@@ -32,7 +32,17 @@
  * Follow up: Could you solve it without converting the integer to a string?
  */
 function isPalindrome(x: number): boolean {
-  return true
+  if (x < 0) {
+    return false
+  }
+  let reversed = 0
+  let tempNum = x
+  while (tempNum > 0) {
+    let remainder = tempNum % 10
+    tempNum = Math.floor(tempNum / 10)
+    reversed = reversed * 10 + remainder
+  }
+  return x === reversed
 }
 
 console.log(isPalindrome(121)) // true
