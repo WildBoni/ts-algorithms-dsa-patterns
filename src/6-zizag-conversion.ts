@@ -34,7 +34,35 @@ Output: "A"
 */
 
 function convert(s: string, numRows: number): string {
-  return s
+  if (numRows === 1) {
+    return s
+  }
+
+  let solutionArray: Array<string[]> = []
+
+  for (let i = 0; i < numRows; i++) {
+    solutionArray.push([])
+  }
+
+  let isDescending = true
+  let stepCounter = 0
+
+  for (let i = 0; i < s.length; i++) {
+    solutionArray[stepCounter].push(s[i])
+    if (isDescending) {
+      stepCounter++
+      if (stepCounter === numRows - 1) {
+        isDescending = false
+      }
+    } else {
+      stepCounter--
+      if (stepCounter === 0) {
+        isDescending = true
+      }
+    }
+  }
+
+  return solutionArray.flat().join('')
 }
 
-console.log(convert('longstring', 3))
+console.log(convert('ab', 3))
