@@ -33,7 +33,26 @@ It is guaranteed for each appearance of the character '*', there will be a previ
 */
 
 function isMatch(s: string, p: string): boolean {
+  return checkMatchingChars(0, 0, s, p)
+}
+
+function checkMatchingChars(
+  i: number,
+  j: number,
+  s: string,
+  p: string
+): boolean {
+  let sLength = s.length
+  let pLength = p.length
+
+  if (j === pLength) {
+    return i === sLength
+  }
+
+  if (i < sLength && (p[j] === '.' || p[j] === s[i])) {
+    return checkMatchingChars(i + 1, j + 1, s, p)
+  }
   return false
 }
 
-console.log(isMatch('aa', 'a'))
+console.log(isMatch('abcd', 'ab.f'))
