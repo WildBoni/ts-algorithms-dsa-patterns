@@ -49,10 +49,18 @@ function checkMatchingChars(
     return i === sLength
   }
 
+  if (j + 1 < pLength && p[j + 1] === '*') {
+    if (checkMatchingChars(i, j + 2, s, p)) return true
+    while (i < sLength && (p[j] === '.' || p[j] === s[i])) {
+      i++
+      if (checkMatchingChars(i, j + 2, s, p)) return true
+    }
+  }
+
   if (i < sLength && (p[j] === '.' || p[j] === s[i])) {
     return checkMatchingChars(i + 1, j + 1, s, p)
   }
   return false
 }
 
-console.log(isMatch('abcd', 'ab.f'))
+console.log(isMatch('abc', 'ab*c'))
