@@ -25,7 +25,24 @@ n == height.length
 */
 
 function maxArea(height: number[]): number {
-  return 0
+  let maxCapacity = 0
+  let gap = height.length - 1
+  let i = 0,
+    j = height.length - 1
+  while (i < j) {
+    let water = 0
+    if (height[i] < height[j]) {
+      water = height[i] * gap
+      i++
+    } else {
+      water = height[j] * gap
+      j--
+    }
+    gap--
+    if (water > maxCapacity) maxCapacity = water
+  }
+
+  return maxCapacity
 }
 
-console.log(maxArea([3, 4, 56]))
+console.log(maxArea([1, 8, 6, 2, 5, 4, 8, 3, 7]))
