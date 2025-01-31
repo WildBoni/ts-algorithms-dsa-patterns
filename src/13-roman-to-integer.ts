@@ -43,7 +43,28 @@ It is guaranteed that s is a valid roman numeral in the range [1, 3999].
 */
 
 function romanToInt(s: string): number {
-  return 0
+  let romanToIntTable: { [key: string]: number } = {
+    I: 1,
+    V: 5,
+    X: 10,
+    L: 50,
+    C: 100,
+    D: 500,
+    M: 1000,
+  }
+
+  let convertedInt = 0
+
+  for (let i = 0; i < s.length; i++) {
+    if (romanToIntTable[s[i + 1]] > romanToIntTable[s[i]]) {
+      convertedInt += romanToIntTable[s[i + 1]] - romanToIntTable[s[i]]
+      i++
+    } else {
+      convertedInt += romanToIntTable[s[i]]
+    }
+  }
+
+  return convertedInt
 }
 
-console.log(romanToInt('XV'))
+console.log(romanToInt('MCMXCIV'))
