@@ -59,7 +59,32 @@ Constraints:
 */
 
 function intToRoman(num: number): string {
-  return ''
+  let romanDictionary: { [key: string]: number } = {
+    M: 1000,
+    CM: 900,
+    D: 500,
+    CD: 400,
+    C: 100,
+    XC: 90,
+    L: 50,
+    XL: 40,
+    X: 10,
+    IX: 9,
+    V: 5,
+    IV: 4,
+    I: 1,
+  }
+
+  let string = ''
+  if (num >= 4000 || num <= 0) throw new Error('invalid range')
+  Object.keys(romanDictionary).forEach((key) => {
+    let numToSubtract = Math.floor(num / romanDictionary[key])
+    num -= numToSubtract * romanDictionary[key]
+    string += key.repeat(numToSubtract)
+    if (num === 0) return string
+  })
+
+  return string
 }
 
-console.log(intToRoman(5))
+console.log(intToRoman(3749))
